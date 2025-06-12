@@ -1,0 +1,9 @@
+﻿<Application x:Class="Udemy_WPF_EF_PersonalTracking.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Udemy_WPF_EF_PersonalTracking"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
