@@ -18,27 +18,25 @@ using Udemy_WPF_EF_PersonalTracking.ViewModels;
 namespace Udemy_WPF_EF_PersonalTracking
 {
     /// <summary>
-    /// Interaction logic for TaskPage.xaml
+    /// Interaction logic for SalaryPage.xaml
     /// </summary>
-    public partial class TaskPage : Window
+    public partial class SalaryPage : Window
     {
-        public TaskPage()
+        public SalaryPage()
         {
             InitializeComponent();
-        }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
 
         PersonaltrackingContext db = new PersonaltrackingContext();
         List<Employee> employeeList = new List<Employee>();
         List<Position> positions = new List<Position>();
+        List<Salarymonth> months = new List<Salarymonth>();
+        public SalaryDetailModel model;
+        int EmployeeId = 0;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            employeeList = db.Employees.OrderBy(x => x.Name).ToList();
+            employeeList = db.Employees.ToList();
             gridEmployee.ItemsSource = employeeList;
 
             cmbDepartment.ItemsSource = db.Departments.ToList();
@@ -52,32 +50,27 @@ namespace Udemy_WPF_EF_PersonalTracking
             cmbPosition.SelectedValuePath = "Id";
             cmbPosition.SelectedIndex = -1;
 
-            if (model != null && model.Id != 0)
-            {
-                txtUserNo.Text = model.UserNo.ToString();
-                txtName.Text = model.Name;
-                txtSurname.Text = model.Surname;
-                txtContent.Text = model.TaskContent;
-                txtTitle.Text = model.TaskTitle;
-            }
+            months = db.Salarymonths.ToList();
+            cmbMonth.ItemsSource = months;
+            cmbMonth.DisplayMemberPath = "MonthName";
+            cmbMonth.SelectedValuePath = "Id";
+            cmbMonth.SelectedIndex = -1;
         }
 
-        private int EmployeeId = 0;
         private void gridEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Employee employee = (Employee)gridEmployee.SelectedItem;
             txtUserNo.Text = employee.UserNo.ToString();
             txtName.Text = employee.Name;
             txtSurname.Text = employee.Surname;
-            // 추가 요소. Tasks는 Employee에 임의로 추가한 네비게이션 프로퍼티(외래키 X), include해야 정상 조회.
-            // Where의 결과는 컬렉션 O, 객체 X. 특정 단일 요소(행)의 속성(컬럼 값)을 조회할때는 First 인스턴스 사용.
-            txtCount.Text = db.Employees.Include(x => x.Tasks).FirstOrDefault(x => x.Id == employee.Id).Tasks.Count.ToString();
+            txtSalary.Text = employee.Salary.ToString();
+            txtYear.Text = DateTime.Now.Year.ToString();
             EmployeeId = employee.Id;
         }
 
-        public TaskDetailModel model = new TaskDetailModel();
         private void cmbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            gridEmployee.ItemsSource = employeeList.Where(x => x.DepartmentId == Convert.ToInt32(cmbDepartment.SelectedItem)).ToList();
             int DepartmentId = Convert.ToInt32(cmbDepartment.SelectedValue);
             if (cmbDepartment.SelectedIndex != -1)
             {
@@ -88,23 +81,22 @@ namespace Udemy_WPF_EF_PersonalTracking
             }
         }
 
+        private void cmbPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            gridEmployee.ItemsSource = employeeList.Where(x => x.PositionId == Convert.ToInt32(cmbPosition.SelectedItem)).ToList();
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (txtTitle.Text.Trim() == "" || txtContent.Text.Trim() == "")
+            if (txtSalary.Text.Trim() == "" || txtYear.Text.Trim() == "" || cmbMonth.SelectedIndex == -1)
             {
                 MessageBox.Show("Please fill the necessary areas.");
             }
             else
             {
                 if (model != null && model.Id != 0)
-                { 
-                    DB.Task task = db.Tasks.Find(model.Id);
-                    if (EmployeeId != 0)
-                        task.EmployeeId = EmployeeId;
-                    task.TaskTitle = txtTitle.Text;
-                    task.TaskContent = txtContent.Text;
-                    db.SaveChanges();
-                    MessageBox.Show($"{model.TaskTitle} Task was Updated to {task.TaskTitle}.");
+                {
+
                 }
                 else
                 {
@@ -114,24 +106,33 @@ namespace Udemy_WPF_EF_PersonalTracking
                     }
                     else
                     {
-                        DB.Task task = new DB.Task();
-                        task.EmployeeId = EmployeeId;
-                        task.TaskStartDate = DateOnly.FromDateTime((DateTime)DateTime.Now);
-                        task.TaskTitle = txtTitle.Text;
-                        task.TaskContent = txtContent.Text;
-                        task.TaskState = Definitions.TaskStates.OnEmployee;
-                        db.Tasks.Add(task);
+                        Salary salary = new Salary();
+                        salary.EmployeeId = EmployeeId;
+                        salary.Amount = Convert.ToInt32(txtSalary.Text);
+                        salary.Year = Convert.ToInt32(txtYear.Text);
+                        salary.MonthId = Convert.ToInt32(cmbMonth.SelectedValue);
+                        db.Salaries.Add(salary);
                         db.SaveChanges();
-                        MessageBox.Show($"{task.TaskTitle} Task was added.");
+                        MessageBox.Show($"{salary.Employee.Name}'s Salary was added.");
                     }
+                    EmployeeId = 0;
+                    txtSalary.Clear();
+                    txtName.Clear();
+                    txtUserNo.Clear();
+                    txtSurname.Clear();
+                    txtYear.Text = DateTime.Now.Year.ToString();
+                    cmbMonth.SelectedIndex = -1;
+                    gridEmployee.ItemsSource = employeeList;
+                    cmbDepartment.SelectedIndex = -1;
+                    cmbPosition.ItemsSource = positions;
+                    cmbPosition.SelectedIndex = -1;
                 }
-                EmployeeId = 0;
-                txtContent.Clear();
-                txtTitle.Clear();
-                txtUserNo.Clear();
-                txtName.Clear();
-                txtSurname.Clear();
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

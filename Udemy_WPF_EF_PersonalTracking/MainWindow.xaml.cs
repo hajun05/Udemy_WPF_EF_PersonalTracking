@@ -54,5 +54,11 @@ namespace Udemy_WPF_EF_PersonalTracking
             IblWindowName.Content = "Task List";
             DataContext = new TaskViewModel();
         }
+
+        private void btnSalary_Click(object sender, RoutedEventArgs e)
+        {
+            IblWindowName.Content = "Salary List";
+            DataContext = new SalaryViewModel();
+        }
     }
 }
