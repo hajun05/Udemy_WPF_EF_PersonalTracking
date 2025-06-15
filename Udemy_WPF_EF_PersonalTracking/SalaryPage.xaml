@@ -43,9 +43,9 @@
             <TextBox x:Name="txtSurname" IsReadOnly="True" Grid.Row="2" Grid.Column="1" Margin="0" Height="26"/>
 
             <Label Content="Salary" Grid.Row="3" Height="34" Width="100"/>
-            <TextBox x:Name="txtSalary" Grid.Row="3" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26"/>
+            <TextBox x:Name="txtSalary" Grid.Row="3" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26" PreviewTextInput="txt_PreviewTextInput"/>
             <Label Content="Year" Grid.Row="4" Height="34" Width="100"/>
-            <TextBox x:Name="txtYear" Grid.Row="4" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26"/>
+            <TextBox x:Name="txtYear" Grid.Row="4" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26" PreviewTextInput="txt_PreviewTextInput"/>
             <Label Content="Month" Grid.Row="5" Height="34" Width="100"/>
             <ComboBox x:Name="cmbMonth" Grid.Row="5" Margin="0" Grid.Column="1" Height="30"/>
             
