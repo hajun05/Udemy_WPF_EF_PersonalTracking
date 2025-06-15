@@ -57,7 +57,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         //List<Employee> employeeList = new List<Employee>();
         List<Position> positions = new List<Position>();
         List<Salarymonth> months = new List<Salarymonth>();
-        public SalaryDetailModel model;
+        public SalaryDetailModel model = new SalaryDetailModel();
         int EmployeeId = 0;
 
         private void FillSalaryGrid()
@@ -145,6 +145,19 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             rbLess.IsChecked = false;
             rbEquals.IsChecked = false;
             gridSalary.ItemsSource = salaries;
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            SalaryPage page = new SalaryPage();
+            page.model = model;
+            page.ShowDialog();
+            FillSalaryGrid();
+        }
+
+        private void gridSalary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            model = (SalaryDetailModel)gridSalary.SelectedItem;
         }
     }
 }

@@ -21,13 +21,13 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="gridEmployee" Grid.Row="1" Grid.ColumnSpan="5" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="UserNo" Width="*" Binding="{Binding UserNo}"/>
-                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="SurName" Width="*" Binding="{Binding Surname}"/>
-                <DataGridTextColumn Header="Position Name" Width="1.5*" Binding="{Binding PositionName}"/>
-                <DataGridTextColumn Header="Department Name" Width="1.5*" Binding="{Binding DepartmentName}"/>
-                <DataGridTextColumn Header="Salary" Width="*" Binding="{Binding Salary}"/>
+                <DataGridTextColumn Header="Id" Width="0.8*" Binding="{Binding Id}" Visibility="Hidden"/>
+                <DataGridTextColumn Header="UserNo" Width="0.8*" Binding="{Binding UserNo}"/>
+                <DataGridTextColumn Header="Name" Width="0.8*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="SurName" Width="0.8*" Binding="{Binding Surname}"/>
+                <DataGridTextColumn Header="Position Name" Width="*" Binding="{Binding PositionName}"/>
+                <DataGridTextColumn Header="Department Name" Width="1.2*" Binding="{Binding DepartmentName}"/>
+                <DataGridTextColumn Header="Recent Salary" Width="*" Binding="{Binding Salary}"/>
                 <DataGridTextColumn Header="PositionId" Width="*" Binding="{Binding PositionId}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="DepartmentId" Width="*" Binding="{Binding DepartmentId}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="isAdmin" Width="*" Binding="{Binding isAdmin}" Visibility="Hidden"/>

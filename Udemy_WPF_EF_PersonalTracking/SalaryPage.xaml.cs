@@ -55,6 +55,17 @@ namespace Udemy_WPF_EF_PersonalTracking
             cmbMonth.DisplayMemberPath = "MonthName";
             cmbMonth.SelectedValuePath = "Id";
             cmbMonth.SelectedIndex = -1;
+
+            if (model != null && model.Id != 0)
+            {
+                txtUserNo.Text = model.UserNo.ToString();
+                txtName.Text = model.Name;
+                txtSurname.Text = model.Surname;
+                txtSalary.Text = model.Amount.ToString();
+                txtYear.Text = model.Year.ToString();
+                EmployeeId = model.EmployeeId;
+                cmbMonth.SelectedValue = model.MonthId;
+            }
         }
 
         private void gridEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -96,7 +107,21 @@ namespace Udemy_WPF_EF_PersonalTracking
             {
                 if (model != null && model.Id != 0)
                 {
+                    Salary salary = db.Salaries.Find(model.Id);
+                    if (EmployeeId != 0)
+                        salary.EmployeeId = EmployeeId;
+                    salary.Amount = Convert.ToInt32(txtSalary.Text);
+                    salary.Year = Convert.ToInt32(txtYear.Text);
+                    salary.MonthId = Convert.ToInt32(cmbMonth.SelectedValue);
 
+                    // 가장 최근에 지급된 급여를 Employee Page에 표시
+                    var employee = db.Employees.Include(x => x.Salaries).FirstOrDefault(x => x.Id == EmployeeId);
+                    if (employee.Salaries.Max(x => x.Year) <= salary.Year && employee.Salaries.Max(x => x.MonthId) <= salary.MonthId)
+                    {
+                        employee.Salary = salary.Amount;
+                    }
+                    db.SaveChanges();
+                    MessageBox.Show($"{salary.Employee.Name}'s {model.Amount} Salary was Updated to {salary.Amount}.");
                 }
                 else
                 {
@@ -113,6 +138,13 @@ namespace Udemy_WPF_EF_PersonalTracking
                         salary.MonthId = Convert.ToInt32(cmbMonth.SelectedValue);
                         db.Salaries.Add(salary);
                         db.SaveChanges();
+
+                        // 가장 최근에 지급된 급여를 Employee Page에 표시
+                        var employee = db.Employees.Include(x => x.Salaries).FirstOrDefault(x => x.Id == EmployeeId);
+                        if (employee.Salaries.Max(x => x.Year) <= salary.Year && employee.Salaries.Max(x => x.MonthId) <= salary.MonthId)
+                        {
+                            employee.Salary = salary.Amount;
+                        }
                         MessageBox.Show($"{salary.Employee.Name}'s Salary was added.");
                     }
 

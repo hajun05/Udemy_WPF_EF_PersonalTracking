@@ -37,14 +37,14 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         {
             TaskPage page = new TaskPage();
             page.ShowDialog();
-            FillDataGrid();
+            FillTaskGrid();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            FillDataGrid();
+            FillTaskGrid();
         }
-        private void FillDataGrid()
+        private void FillTaskGrid()
         {
             tasklist = db.Tasks.Include(x => x.TaskStateNavigation).Include(x => x.Employee)
                 .ThenInclude(x => x.Department).ThenInclude(x => x.Positions).Select(x => new TaskDetailModel()
@@ -145,7 +145,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             TaskPage page = new TaskPage();
             page.model = model;
             page.ShowDialog();
-            FillDataGrid();
+            FillTaskGrid();
         }
     }
 }

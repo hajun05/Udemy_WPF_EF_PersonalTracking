@@ -67,7 +67,7 @@
             <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5" Click="btnClear_Click"/>
         </Grid>
 
-        <DataGrid x:Name="gridSalary" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single">
+        <DataGrid x:Name="gridSalary" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single" SelectionChanged="gridSalary_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*" Visibility="Hidden"/>
                 <DataGridTextColumn Header="User No" Binding="{Binding UserNo}" Width="*"/>
@@ -87,7 +87,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btnAdd" Content="Add" Grid.Column="0" FontSize="18" FontWeight="Bold" Margin="40, 5" Click="btnAdd_Click"/>
-            <Button x:Name="btnUpdate" Content="Update" Grid.Column="1" FontSize="18" FontWeight="Bold" Margin="40, 5"/>
+            <Button x:Name="btnUpdate" Content="Update" Grid.Column="1" FontSize="18" FontWeight="Bold" Margin="40, 5" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="Delete" Grid.Column="2" FontSize="18" FontWeight="Bold" Margin="40, 5"/>
         </Grid>
     </Grid>

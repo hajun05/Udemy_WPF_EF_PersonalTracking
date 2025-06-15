@@ -173,6 +173,7 @@ namespace Udemy_WPF_EF_PersonalTracking
 
                         File.Copy(txtImage.Text, @"Images//" + filename.ToString());
                         MessageBox.Show($"{employee.Name} was Added.");
+
                         txtUserNo.Clear();
                         txtPassword.Clear();
                         txtName.Clear();
