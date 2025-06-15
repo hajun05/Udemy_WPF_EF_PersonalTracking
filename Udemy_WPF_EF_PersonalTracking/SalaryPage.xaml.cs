@@ -115,6 +115,7 @@ namespace Udemy_WPF_EF_PersonalTracking
                         db.SaveChanges();
                         MessageBox.Show($"{salary.Employee.Name}'s Salary was added.");
                     }
+
                     EmployeeId = 0;
                     txtSalary.Clear();
                     txtName.Clear();

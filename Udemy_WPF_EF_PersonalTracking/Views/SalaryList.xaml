@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Udemy_WPF_EF_PersonalTracking.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" FontSize="18" FontWeight="SemiBold">
+             d:DesignHeight="500" d:DesignWidth="800" FontSize="18" FontWeight="SemiBold" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -50,21 +50,21 @@
             <Label Content="Surname" Grid.Row="2" Height="34" Width="100"/>
             <TextBox x:Name="txtSurname" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Height="26"/>
             <Label Content="Department" Grid.Row="3" Height="34" Width="120"/>
-            <ComboBox Name="cmbDepartment" Grid.Column="1" Grid.Row="3" Height="30"/>
+            <ComboBox Name="cmbDepartment" Grid.Column="1" Grid.Row="3" Height="30" SelectionChanged="cmbDepartment_SelectionChanged"/>
             <Label Content="Position" Grid.Row="4" Height="43" Width="100"/>
             <ComboBox Name="cmbPosition" Grid.Column="1" Grid.Row="4" Height="30"/>
             <Label Content="Year" Grid.Column="2" Height="34" Width="100"/>
-            <TextBox x:Name="txtYear" Grid.Column="3" TextWrapping="Wrap" Height="26"/>
+            <TextBox x:Name="txtYear" Grid.Column="3" TextWrapping="Wrap" Height="26" PreviewTextInput="txtNum_PreviewTextInput"/>
             <Label Content="Month" Grid.Column="2" Grid.Row="1" Height="34" Width="100"/>
             <ComboBox Name="cmbMonth" Grid.Column="3" Grid.Row="1" Height="30"/>
             <Label Content="Salary" Grid.Row="2" Grid.Column="2" Height="34" Width="100"/>
-            <TextBox Name="txtSalary" Grid.Column="3" Grid.Row="2" Height="26"/>
+            <TextBox Name="txtSalary" Grid.Column="3" Grid.Row="2" Height="26" PreviewTextInput="txtNum_PreviewTextInput"/>
             
             <RadioButton x:Name="rbMore" Content="More" Grid.Column="4" Grid.Row="1" Margin="10, 0, 0, 0"/>
             <RadioButton x:Name="rbLess" Content="Less" Grid.Column="4" Grid.Row="2" Margin="10, 0, 0, 0"/>
             <RadioButton x:Name="rbEquals" Content="Equals" Grid.Column="4" Grid.Row="3" Margin="10, 0, 0, 0"/>
-            <Button x:Name="btnSearch" Content="Search" Grid.Column="3" Grid.Row="4" Margin="10, 5"/>
-            <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5"/>
+            <Button x:Name="btnSearch" Content="Search" Grid.Column="3" Grid.Row="4" Margin="10, 5" Click="btnSearch_Click"/>
+            <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5" Click="btnClear_Click"/>
         </Grid>
 
         <DataGrid x:Name="gridSalary" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="False" SelectionMode="Single">
