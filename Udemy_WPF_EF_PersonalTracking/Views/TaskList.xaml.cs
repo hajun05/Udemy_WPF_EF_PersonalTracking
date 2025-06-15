@@ -147,5 +147,23 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             page.ShowDialog();
             FillTaskGrid();
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridTask.SelectedIndex != -1 &&
+                MessageBox.Show("Are you sure to delete?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                if (model.Id != 0)
+                {
+                    TaskDetailModel taskmodel = (TaskDetailModel)(gridTask.SelectedItem);
+                    DB.Task task = db.Tasks.Find(taskmodel.Id);
+                    db.Tasks.Remove(task);
+
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.Name}'s {model.TaskTitle} Task was deleted.");
+                    FillTaskGrid();
+                }
+            }
+        }
     }
 }
