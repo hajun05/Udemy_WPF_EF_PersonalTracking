@@ -137,7 +137,6 @@ namespace Udemy_WPF_EF_PersonalTracking
                         salary.Year = Convert.ToInt32(txtYear.Text);
                         salary.MonthId = Convert.ToInt32(cmbMonth.SelectedValue);
                         db.Salaries.Add(salary);
-                        db.SaveChanges();
 
                         // 가장 최근에 지급된 급여를 Employee Page에 표시
                         var employee = db.Employees.Include(x => x.Salaries).FirstOrDefault(x => x.Id == EmployeeId);
@@ -145,6 +144,7 @@ namespace Udemy_WPF_EF_PersonalTracking
                         {
                             employee.Salary = salary.Amount;
                         }
+                        db.SaveChanges();
                         MessageBox.Show($"{salary.Employee.Name}'s Salary was added.");
                     }
 

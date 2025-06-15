@@ -158,6 +158,29 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         private void gridSalary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             model = (SalaryDetailModel)gridSalary.SelectedItem;
+            EmployeeId = model.EmployeeId;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridSalary.SelectedIndex != -1 &&
+                MessageBox.Show("Are you sure to delete?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                if (model.Id != 0)
+                {
+                    SalaryDetailModel salarymodel = (SalaryDetailModel)(gridSalary.SelectedItem);
+                    Salary salary = db.Salaries.Find(salarymodel.Id);
+                    db.Salaries.Remove(salary);
+
+                    // 가장 최근에 지급된 급여를 Employee Page에 표시
+                    var employee = db.Employees.Include(x => x.Salaries).FirstOrDefault(x => x.Id == EmployeeId);
+                    employee.Salary = employee.Salaries.OrderByDescending(x => x.Year).ThenByDescending(x => x.MonthId).FirstOrDefault().Amount;
+                    
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.Name}'s {model.Year}-{model.MonthName} Salary was deleted.");
+                    FillSalaryGrid();
+                }
+            }
         }
     }
 }
