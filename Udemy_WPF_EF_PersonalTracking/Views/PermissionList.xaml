@@ -101,7 +101,7 @@
 
             <Button x:Name="btnApprove" Content="Approve"/>
             <Button x:Name="btnDisapprove" Content="Disapprove" Grid.Column="1"/>
-            <Button x:Name="btnAdd" Content="Add" Grid.Column="2"/>
+            <Button x:Name="btnAdd" Content="Add" Grid.Column="2" Click="btnAdd_Click"/>
             <Button x:Name="btnUpdate" Content="Update" Grid.Column="3"/>
             <Button x:Name="btnDelete" Content="Delete" Grid.Column="4"/>
         </Grid>

@@ -52,6 +52,9 @@ namespace Udemy_WPF_EF_PersonalTracking
                     UserStatic.UserNo = employee.UserNo;
                     UserStatic.IsAdmin = (bool)employee.IsAdmin;
                     main.ShowDialog();
+                    txtPassword.Clear();
+                    txtUserNo.Clear();
+                    this.Visibility = Visibility.Visible;
                 }
                 else
                 {
