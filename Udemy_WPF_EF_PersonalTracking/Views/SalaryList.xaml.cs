@@ -54,7 +54,6 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
 
         PersonaltrackingContext db = new PersonaltrackingContext();
         List<SalaryDetailModel> salaries = new List<SalaryDetailModel>();
-        //List<Employee> employeeList = new List<Employee>();
         List<Position> positions = new List<Position>();
         List<Salarymonth> months = new List<Salarymonth>();
         public SalaryDetailModel model = new SalaryDetailModel();
@@ -78,6 +77,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             }).OrderByDescending(x => x.Year).OrderByDescending(x => x.MonthId).ToList();
             gridSalary.ItemsSource = salaries;
         }
+
         private void txtNum_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
@@ -158,7 +158,8 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         private void gridSalary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             model = (SalaryDetailModel)gridSalary.SelectedItem;
-            EmployeeId = model.EmployeeId;
+            if (model != null) 
+                EmployeeId = model.EmployeeId;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

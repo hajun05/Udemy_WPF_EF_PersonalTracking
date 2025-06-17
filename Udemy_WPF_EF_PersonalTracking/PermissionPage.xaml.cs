@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Udemy_WPF_EF_PersonalTracking.DB;
+using Udemy_WPF_EF_PersonalTracking.ViewModels;
 
 namespace Udemy_WPF_EF_PersonalTracking
 {
@@ -27,10 +28,20 @@ namespace Udemy_WPF_EF_PersonalTracking
 
         TimeSpan tspermissionday = new TimeSpan();
         PersonaltrackingContext db = new PersonaltrackingContext();
+        public PermissionDetailModel model = new PermissionDetailModel();
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             txtUserNo.Text = UserStatic.UserNo.ToString();
+
+            if (model != null && model.Id != 0)
+            {
+                txtUserNo.Text = model.UserNo.ToString();
+                txtName.Text = model.Name;
+                dpStart.SelectedDate = model.StartDate;
+                dpEnd.SelectedDate = model.EndDate;
+                txtExplanation.Text = model.Explanation;
+            }
         }
 
         private void dpStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -71,23 +82,36 @@ namespace Udemy_WPF_EF_PersonalTracking
                 MessageBox.Show("Please write your permission reason.");
             else
             {
-                Permission permission = new Permission();
-                permission.EmployeeId = UserStatic.EmployeeId;
-                permission.UserNo = UserStatic.UserNo;
-                permission.PermissionState = Definitions.PermissionStates.OnEmployee;
-                permission.PermissionStartDate = DateOnly.FromDateTime((DateTime)dpStart.SelectedDate);
-                permission.PermissionEndDate = DateOnly.FromDateTime((DateTime)dpEnd.SelectedDate);
-                permission.PermissionAmount = Convert.ToInt32(txtDayAmount.Text);
-                permission.PermissionExplanation = txtExplanation.Text;
-                db.Permissions.Add(permission);
-                db.SaveChanges();
+                if (model != null && model.Id != 0)
+                {
+                    Permission permission = db.Permissions.Find(model.Id);
+                    permission.PermissionStartDate = DateOnly.FromDateTime((DateTime)dpStart.SelectedDate);
+                    permission.PermissionEndDate = DateOnly.FromDateTime((DateTime)dpEnd.SelectedDate);
+                    permission.PermissionExplanation = txtExplanation.Text;
+                    permission.PermissionAmount = Convert.ToInt32(txtDayAmount.Text);
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.Name}'s Permission was Updated.");
+                }
+                else
+                {
+                    Permission permission = new Permission();
+                    permission.EmployeeId = UserStatic.EmployeeId;
+                    permission.UserNo = UserStatic.UserNo;
+                    permission.PermissionState = Definitions.PermissionStates.OnEmployee;
+                    permission.PermissionStartDate = DateOnly.FromDateTime((DateTime)dpStart.SelectedDate);
+                    permission.PermissionEndDate = DateOnly.FromDateTime((DateTime)dpEnd.SelectedDate);
+                    permission.PermissionAmount = Convert.ToInt32(txtDayAmount.Text);
+                    permission.PermissionExplanation = txtExplanation.Text;
+                    db.Permissions.Add(permission);
+                    db.SaveChanges();
 
-                MessageBox.Show($"{UserStatic.Name}'s Permission was Added.");
-                
-                dpEnd.SelectedDate = DateTime.Today;
-                dpStart.SelectedDate = DateTime.Today;
-                txtExplanation.Clear();
-                txtDayAmount.Clear();
+                    MessageBox.Show($"{UserStatic.Name}'s Permission was Added.");
+
+                    dpEnd.SelectedDate = DateTime.Today;
+                    dpStart.SelectedDate = DateTime.Today;
+                    txtExplanation.Clear();
+                    txtDayAmount.Clear();
+                }
             }
         }
 

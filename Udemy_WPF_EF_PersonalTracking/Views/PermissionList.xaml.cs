@@ -33,6 +33,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         PersonaltrackingContext db = new PersonaltrackingContext();
         List<PermissionDetailModel> permissionlist = new List<PermissionDetailModel>();
         List<Position> positions = new List<Position>();
+        PermissionDetailModel model = new PermissionDetailModel();
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -58,7 +59,12 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
 
         private void FillPermissionGrid()
         {
-            permissionlist = db.Permissions.Include(x => x.Employee).Include(x => x.PermissionStateNavigation)
+            // 다른 List와 달리 업데이트 이후 즉각 반영되지 않는 현상 발생
+            // DbContext의 생명주기 문제로 추정. PermissionPage에서 저장을 해도, db 인스턴스가 변경을 감지하지 못하고, 이전 상태를 계속 반환
+            // 새로운 db 인스턴스를 생성하는 것으로 문제 해결
+            using (var db = new PersonaltrackingContext())
+            {
+                permissionlist = db.Permissions.Include(x => x.Employee).Include(x => x.PermissionStateNavigation)
                 .AsEnumerable().Select(x => new PermissionDetailModel() // AsEnumerable() // 이 시점부터는 LINQ-to-Objects로 동작. 쿼리의 SQL 변환이 불가능한 부분 메모리에서 처리
                 {
                     Id = x.Id,
@@ -75,8 +81,9 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                     Explanation = x.PermissionExplanation,
                     PermissionState = x.PermissionState,
                 }).OrderByDescending(x => x.StartDate).ToList();
-            
-            gridPermission.ItemsSource = permissionlist;
+
+                gridPermission.ItemsSource = permissionlist;
+            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -124,6 +131,52 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             rbEndDate.IsChecked = false;
             rbStartDate.IsChecked = false;
             gridPermission.ItemsSource = permissionlist;
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (model != null && model.Id != 0)
+            {
+                PermissionPage page = new PermissionPage();
+                page.model = model;
+                page.ShowDialog();
+                FillPermissionGrid();
+            }
+            else
+                MessageBox.Show("Please select a permission from table.");
+        }
+
+        private void gridPermission_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            model = (PermissionDetailModel)gridPermission.SelectedItem;
+        }
+
+        private void btnApprove_Click(object sender, RoutedEventArgs e)
+        {
+            if (model != null && model.Id != 0 && model.PermissionState == Definitions.PermissionStates.OnEmployee)
+            {
+                Permission permission = db.Permissions.Find(model.Id);
+                permission.PermissionState = Definitions.PermissionStates.Approved;
+                db.SaveChanges();
+                MessageBox.Show("Permission was approved.");
+                FillPermissionGrid();
+            }
+            else
+                MessageBox.Show("Please select a permission from table.");
+        }
+
+        private void btnDisapprove_Click(object sender, RoutedEventArgs e)
+        {
+            if (model != null && model.Id != 0 && model.PermissionState == Definitions.PermissionStates.OnEmployee)
+            {
+                Permission permission = db.Permissions.Find(model.Id);
+                permission.PermissionState = Definitions.PermissionStates.Disapproved;
+                db.SaveChanges();
+                MessageBox.Show("Permission was disapproved.");
+                FillPermissionGrid();
+            }
+            else
+                MessageBox.Show("Please select a permission from table.");
         }
     }
 }

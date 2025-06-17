@@ -51,7 +51,7 @@
             <TextBox x:Name="txtSurname" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Height="26"/>
             <Label Content="Department" Grid.Row="3" Height="34" Width="120"/>
             <ComboBox Name="cmbDepartment" Grid.Column="1" Grid.Row="3" Height="30"/>
-            <Label Content="Position" Grid.Row="4" Height="43" Width="100"/>
+            <Label Content="Position" Grid.Row="4" Height="34" Width="100"/>
             <ComboBox Name="cmbPosition" Grid.Column="1" Grid.Row="4" Height="30"/>
             
             <Label Content="Permission Date" Grid.Column="3" Height="34" Width="100"/>
@@ -59,7 +59,7 @@
             <Label Content="End" Grid.Column="2" Grid.Row="2" Height="34" Width="100"/>
             <DatePicker Name="dpStart" Grid.Column="3" Grid.Row="1" Height="34" Width="170"/>
             <DatePicker Name="dpEnd" Grid.Column="3" Grid.Row="2" Height="34" Width="170"/>
-            <Label Content="DayAmount" Grid.Column="2" Grid.Row="3" Height="34" Width="100"/>
+            <Label Content="DayAmount" Grid.Column="2" Grid.Row="3" Height="34" Width="120"/>
             <TextBox x:Name="txtDayAmount" Grid.Column="3" Grid.Row="3" TextWrapping="Wrap" Height="26"/>
 
             <Label Content="State" Grid.Column="2" Grid.Row="4" Height="34" Width="100"/>
@@ -70,7 +70,7 @@
             <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5" Click="btnClear_Click"/>
         </Grid>
         
-        <DataGrid x:Name="gridPermission" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="gridPermission" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="gridPermission_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="UserNo" Width="*" Binding="{Binding UserNo}"/>
@@ -99,10 +99,10 @@
                 </Style>
             </Grid.Resources>
 
-            <Button x:Name="btnApprove" Content="Approve"/>
-            <Button x:Name="btnDisapprove" Content="Disapprove" Grid.Column="1"/>
+            <Button x:Name="btnApprove" Content="Approve" Click="btnApprove_Click"/>
+            <Button x:Name="btnDisapprove" Content="Disapprove" Grid.Column="1" Click="btnDisapprove_Click"/>
             <Button x:Name="btnAdd" Content="Add" Grid.Column="2" Click="btnAdd_Click"/>
-            <Button x:Name="btnUpdate" Content="Update" Grid.Column="3"/>
+            <Button x:Name="btnUpdate" Content="Update" Grid.Column="3" Click="btnUpdate_Click"/>
             <Button x:Name="btnDelete" Content="Delete" Grid.Column="4"/>
         </Grid>
     </Grid>

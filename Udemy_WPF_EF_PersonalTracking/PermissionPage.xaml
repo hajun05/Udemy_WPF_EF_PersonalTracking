@@ -37,9 +37,9 @@
         <Label Content="Name" Width="100" Grid.Row="1"/>
         <TextBox x:Name="txtName" IsReadOnly="True" Grid.Row="1" Grid.Column="1" Height="30" Margin="0,0,30,0"/>
         <Label Content="Start Date" Grid.Row="2"/>
-        <DatePicker Name="dpStart" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,1,0" SelectedDateChanged="dpStart_SelectedDateChanged"/>
+        <DatePicker Name="dpStart" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,2,0" SelectedDateChanged="dpStart_SelectedDateChanged"/>
         <Label Content="End Date" Grid.Row="3" Width="100"/>
-        <DatePicker Name="dpEnd" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,1,0" SelectedDateChanged="dpEnd_SelectedDateChanged"/>
+        <DatePicker Name="dpEnd" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,2,0" SelectedDateChanged="dpEnd_SelectedDateChanged"/>
         <Label Content="Day Amount" Grid.Row="4" Width="120"/>
         <TextBox x:Name="txtDayAmount" IsEnabled="False" Grid.Row="4" Grid.Column="1" Height="30" Margin="0,0,30,0"/>
         <Label Content="Explanation" Width="120" Grid.Row="5"/>
