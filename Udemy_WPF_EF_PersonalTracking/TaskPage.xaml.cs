@@ -33,13 +33,13 @@ namespace Udemy_WPF_EF_PersonalTracking
         }
 
         PersonaltrackingContext db = new PersonaltrackingContext();
-        List<Employee> employeeList = new List<Employee>();
         List<Position> positions = new List<Position>();
+        public TaskDetailModel model = new TaskDetailModel();
+        private int EmployeeId = 0;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            employeeList = db.Employees.OrderBy(x => x.Name).ToList();
-            gridEmployee.ItemsSource = employeeList;
+            gridEmployee.ItemsSource = db.Employees.OrderBy(x => x.Name).ToList();
 
             cmbDepartment.ItemsSource = db.Departments.ToList();
             cmbDepartment.DisplayMemberPath = "DepartmentName";
@@ -61,8 +61,7 @@ namespace Udemy_WPF_EF_PersonalTracking
                 txtTitle.Text = model.TaskTitle;
             }
         }
-
-        private int EmployeeId = 0;
+        
         private void gridEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Employee employee = (Employee)gridEmployee.SelectedItem;
@@ -75,7 +74,6 @@ namespace Udemy_WPF_EF_PersonalTracking
             EmployeeId = employee.Id;
         }
 
-        public TaskDetailModel model = new TaskDetailModel();
         private void cmbDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int DepartmentId = Convert.ToInt32(cmbDepartment.SelectedValue);

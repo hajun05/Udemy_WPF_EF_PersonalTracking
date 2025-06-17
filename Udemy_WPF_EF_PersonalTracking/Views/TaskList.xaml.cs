@@ -32,6 +32,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         List<TaskDetailModel> tasklist = new List<TaskDetailModel>();
         List<TaskDetailModel> searchlist = new List<TaskDetailModel>();
         List<Position> positions = new List<Position>();
+        TaskDetailModel model = new TaskDetailModel();
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -133,7 +134,6 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             gridTask.ItemsSource = tasklist;
         }
 
-        TaskDetailModel model = new TaskDetailModel();
         private void gridTask_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             model = (TaskDetailModel)gridTask.SelectedItem;
@@ -141,10 +141,15 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            TaskPage page = new TaskPage();
-            page.model = model;
-            page.ShowDialog();
-            FillTaskGrid();
+            if (model != null && model.Id != 0)
+            {
+                TaskPage page = new TaskPage();
+                page.model = model;
+                page.ShowDialog();
+                FillTaskGrid();
+            }
+            else
+                MessageBox.Show("Please select a task from table.");
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
