@@ -66,5 +66,15 @@ namespace Udemy_WPF_EF_PersonalTracking
             IblWindowName.Content = "Permission List";
             DataContext = new PermissionViewModel();
         }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -110,7 +110,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="7" Margin="0,2,0,0">
-            <Button Grid.Row="7" Name="btnLogOut" Height="60" HorizontalAlignment="Left">
+            <Button Grid.Row="7" Name="btnLogOut" Height="60" HorizontalAlignment="Left" Click="btnLogOut_Click">
                 <Grid Width="230">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -123,7 +123,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="8" Margin="0,2,0,0">
-            <Button Grid.Row="8" Name="btnExit" Height="60" HorizontalAlignment="Left">
+            <Button Grid.Row="8" Name="btnExit" Height="60" HorizontalAlignment="Left" Click="btnExit_Click">
                 <Grid Width="230">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
