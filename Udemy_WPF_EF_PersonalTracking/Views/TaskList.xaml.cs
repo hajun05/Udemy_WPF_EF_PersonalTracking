@@ -43,6 +43,23 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             FillTaskGrid();
+            cmbDepartment.ItemsSource = db.Departments.ToList();
+            cmbDepartment.DisplayMemberPath = "DepartmentName";
+            cmbDepartment.SelectedValuePath = "Id";
+            cmbDepartment.SelectedIndex = -1;
+
+            positions = db.Positions.ToList();
+
+            cmbPosition.ItemsSource = db.Positions.ToList();
+            cmbPosition.DisplayMemberPath = "PositionName";
+            cmbPosition.SelectedValuePath = "Id";
+            cmbPosition.SelectedIndex = -1;
+
+            List<Taskstate> taskstates = db.Taskstates.ToList();
+            cmbState.ItemsSource = taskstates;
+            cmbState.DisplayMemberPath = "NameState";
+            cmbState.SelectedValuePath = "Id";
+            cmbState.SelectedIndex = -1;
         }
         private void FillTaskGrid()
         {
@@ -65,24 +82,6 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
 
             gridTask.ItemsSource = tasklist;
             searchlist = tasklist;
-
-            cmbDepartment.ItemsSource = db.Departments.ToList();
-            cmbDepartment.DisplayMemberPath = "DepartmentName";
-            cmbDepartment.SelectedValuePath = "Id";
-            cmbDepartment.SelectedIndex = -1;
-
-            positions = db.Positions.ToList();
-
-            cmbPosition.ItemsSource = db.Positions.ToList();
-            cmbPosition.DisplayMemberPath = "PositionName";
-            cmbPosition.SelectedValuePath = "Id";
-            cmbPosition.SelectedIndex = -1;
-
-            List<Taskstate> taskstates = db.Taskstates.ToList();
-            cmbState.ItemsSource = taskstates;
-            cmbState.DisplayMemberPath = "NameState";
-            cmbState.SelectedValuePath = "Id";
-            cmbState.SelectedIndex = -1;
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

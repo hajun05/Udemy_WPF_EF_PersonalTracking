@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Udemy_WPF_EF_PersonalTracking.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" FontSize="18" FontWeight="SemiBold">
+             d:DesignHeight="500" d:DesignWidth="800" FontSize="18" FontWeight="SemiBold" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -66,8 +66,8 @@
             <ComboBox Name="cmbState" Grid.Column="3" Grid.Row="4" Height="30"/>
             <RadioButton x:Name="rbStartDate" Content="Start Date" Grid.Column="4" Grid.Row="1"/>
             <RadioButton x:Name="rbEndDate" Content="End Date" Grid.Column="4" Grid.Row="2"/>
-            <Button x:Name="btnSearch" Content="Search" Grid.Column="4" Grid.Row="3" Margin="10, 5"/>
-            <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5"/>
+            <Button x:Name="btnSearch" Content="Search" Grid.Column="4" Grid.Row="3" Margin="10, 5" Click="btnSearch_Click"/>
+            <Button x:Name="btnClear" Content="Clear" Grid.Column="4" Grid.Row="4" Margin="10, 5" Click="btnClear_Click"/>
         </Grid>
         
         <DataGrid x:Name="gridPermission" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
@@ -76,8 +76,8 @@
                 <DataGridTextColumn Header="UserNo" Width="*" Binding="{Binding UserNo}"/>
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="SurName" Width="*" Binding="{Binding Surname}"/>
-                <DataGridTextColumn Header="Start Date" Width="*" Binding="{Binding StartDate}"/>
-                <DataGridTextColumn Header="End Date" Width="*" Binding="{Binding EndDate}"/>
+                <DataGridTextColumn Header="Start Date" Width="*" Binding="{Binding StartDate, StringFormat={}{0:yyyy-MM-dd}}"/>
+                <DataGridTextColumn Header="End Date" Width="*" Binding="{Binding EndDate, StringFormat={}{0:yyyy-MM-dd}}"/>
                 <DataGridTextColumn Header="State" Width="*" Binding="{Binding StateName}"/>
                 <DataGridTextColumn Header="StateId" Width="*" Binding="{Binding TaskState}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="EmployeeId" Width="*" Binding="{Binding EmployeeId}" Visibility="Hidden"/>
