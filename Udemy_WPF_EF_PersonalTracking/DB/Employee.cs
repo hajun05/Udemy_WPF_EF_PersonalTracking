@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Udemy_WPF_EF_PersonalTracking.DB;
 
@@ -11,7 +10,7 @@ public partial class Employee
     public int UserNo { get; set; }
 
     public string Name { get; set; } = null!;
-    
+
     public string Surname { get; set; } = null!;
 
     public string ImagePath { get; set; } = null!;
@@ -19,7 +18,7 @@ public partial class Employee
     public int DepartmentId { get; set; }
 
     public int PositionId { get; set; }
-    
+
     public int Salary { get; set; }
 
     public DateOnly? BirtyDay { get; set; } //EF Core(8 이상)와 .NET 6 이상 환경에서는 DATE 컬럼이 자동으로 DateOnly로 매핑되도록 지원
@@ -40,4 +39,5 @@ public partial class Employee
     public virtual ICollection<Salary> Salaries { get; set; } = new List<Salary>();
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+
 }

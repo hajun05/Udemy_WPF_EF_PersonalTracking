@@ -19,6 +19,10 @@ public partial class Permission
 
     public int PermissionDay { get; set; }
 
+    public int UserNo { get; set; }
+
+    public int PermissionAmount { get; set; }
+
     public virtual Employee Employee { get; set; } = null!;
 
     public virtual Permissionstate PermissionStateNavigation { get; set; } = null!;
