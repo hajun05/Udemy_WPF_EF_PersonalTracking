@@ -71,7 +71,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="4" Margin="0,2,0,0">
-            <Button Grid.Row="4" Name="btnPermission" Height="60" HorizontalAlignment="Left" Click="btnPosition_Click">
+            <Button Grid.Row="4" Name="btnPermission" Height="60" HorizontalAlignment="Left" Click="btnPermission_Click">
                 <Grid Width="230">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -161,6 +161,11 @@
             <views:SalaryList>
                 
             </views:SalaryList>
+        </DataTemplate>
+        <DataTemplate x:Name="PermissionTemplate" DataType="{x:Type viewmodels:PermissionViewModel}">
+            <views:PermissionList>
+
+            </views:PermissionList>
         </DataTemplate>
     </Window.Resources>
 </Window>

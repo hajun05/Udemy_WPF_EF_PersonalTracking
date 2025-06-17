@@ -60,5 +60,11 @@ namespace Udemy_WPF_EF_PersonalTracking
             IblWindowName.Content = "Salary List";
             DataContext = new SalaryViewModel();
         }
+
+        private void btnPermission_Click(object sender, RoutedEventArgs e)
+        {
+            IblWindowName.Content = "Permission List";
+            DataContext = new PermissionViewModel();
+        }
     }
 }
