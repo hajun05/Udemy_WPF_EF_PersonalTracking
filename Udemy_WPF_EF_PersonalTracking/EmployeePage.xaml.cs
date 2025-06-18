@@ -113,36 +113,43 @@ namespace Udemy_WPF_EF_PersonalTracking
                 if (model != null && model.Id != 0)
                 {
                     Employee employee = db.Employees.Find(model.Id);
-                    List<Employee> employeeList = db.Employees.Where(x => x.UserNo == Convert.ToInt32(txtUserNo.Text) && x.Id == employee.Id).ToList();
-                    if (employeeList.Count > 0)
-                        MessageBox.Show("This User no is already used by Another Employee.");
-                    else
+
+                    // UserNo 중복 확인. 번호 미변경시 생략
+                    if (model.UserNo.ToString() != txtUserNo.Text)
                     {
-                        if (txtImage.Text.Trim() != "")
+                        List<Employee> employeeList = db.Employees.Where(x => x.UserNo == Convert.ToInt32(txtUserNo.Text) && x.Id == employee.Id).ToList();
+                        if (employeeList.Count > 0)
                         {
-                            if (File.Exists(@"Images//" + employee.ImagePath))
-                            {
-                                File.Delete(@"Images//" + employee.ImagePath);
-                                string Unique = Guid.NewGuid().ToString();
-                                StringBuilder filename = new StringBuilder(Unique + System.IO.Path.GetFileName(txtImage.Text));
-                                File.Copy(txtImage.Text, @"Images//" + filename.ToString());
-                                MessageBox.Show("Delete");
-                            }
+                            MessageBox.Show("This User no is already used by Another Employee.");
+                            return;
                         }
-                        employee.UserNo = Convert.ToInt32(txtUserNo.Text);
-                        employee.Password = txtPassword.Text;
-                        employee.Name = txtName.Text;
-                        employee.Surname = txtSurname.Text;
-                        employee.Salary = Convert.ToInt32(txtSalary.Text);
-                        employee.DepartmentId = Convert.ToInt32(cmbDepartment.SelectedValue);
-                        employee.PositionId = Convert.ToInt32(cmbPosition.SelectedValue);
-                        TextRange address = new TextRange(txtAddress.Document.ContentStart, txtAddress.Document.ContentEnd);
-                        employee.Address = address.Text;
-                        employee.BirtyDay = DateOnly.FromDateTime((DateTime)picker1.SelectedDate);
-                        employee.IsAdmin = (bool)chisAdmin.IsChecked;
-                        db.SaveChanges();
-                        MessageBox.Show($"{model.Name} was Updated to {employee.Name}.");
                     }
+
+                    // 이미지가 바뀌지 않을 경우에는 생략
+                    if (txtImage.Text.Trim() != "" && txtImage.Text.Trim() != model.ImagePath)
+                    {
+                        if (File.Exists(@"Images//" + employee.ImagePath))
+                        {
+                            File.Delete(@"Images//" + employee.ImagePath);
+                            string Unique = Guid.NewGuid().ToString();
+                            StringBuilder filename = new StringBuilder(Unique + System.IO.Path.GetFileName(txtImage.Text));
+                            File.Copy(txtImage.Text, @"Images//" + filename.ToString());
+                            MessageBox.Show("Delete");
+                        }
+                    }
+                    employee.UserNo = Convert.ToInt32(txtUserNo.Text);
+                    employee.Password = txtPassword.Text;
+                    employee.Name = txtName.Text;
+                    employee.Surname = txtSurname.Text;
+                    employee.Salary = Convert.ToInt32(txtSalary.Text);
+                    employee.DepartmentId = Convert.ToInt32(cmbDepartment.SelectedValue);
+                    employee.PositionId = Convert.ToInt32(cmbPosition.SelectedValue);
+                    TextRange address = new TextRange(txtAddress.Document.ContentStart, txtAddress.Document.ContentEnd);
+                    employee.Address = address.Text;
+                    employee.BirtyDay = DateOnly.FromDateTime((DateTime)picker1.SelectedDate);
+                    employee.IsAdmin = (bool)chisAdmin.IsChecked;
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.Name} was Updated to {employee.Name}.");
                 }
                 else
                 {
