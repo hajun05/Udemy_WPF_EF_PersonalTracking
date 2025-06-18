@@ -167,7 +167,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             if (gridSalary.SelectedIndex != -1 &&
                 MessageBox.Show("Are you sure to delete?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                if (model.Id != 0)
+                if (model != null && model.Id != 0)
                 {
                     SalaryDetailModel salarymodel = (SalaryDetailModel)(gridSalary.SelectedItem);
                     Salary salary = db.Salaries.Find(salarymodel.Id);

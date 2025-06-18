@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridEmployee" Grid.Row="1" Grid.ColumnSpan="5" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow">
+        <DataGrid x:Name="gridEmployee" Grid.Row="1" Grid.ColumnSpan="5" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow" SelectionChanged="gridEmployee_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="0.8*" Binding="{Binding Id}" Visibility="Hidden"/>
                 <DataGridTextColumn Header="UserNo" Width="0.8*" Binding="{Binding UserNo}"/>
@@ -65,6 +65,6 @@
         </Grid>
         <Button Name="btnAdd" Content="Add" FontSize="18" FontWeight="Bold" Grid.Column="1" Grid.Row="2" Margin="40,5" Click="btnAdd_Click"/>
         <Button Name="btnUpdate" Content="Update" FontSize="18" FontWeight="Bold" Grid.Column="2" Grid.Row="2" Margin="40,5" Click="btnUpdate_Click"/>
-        <Button Name="btnDelete" Content="Delete" FontSize="18" FontWeight="Bold" Grid.Column="3" Grid.Row="2" Margin="40,5"/>
+        <Button Name="btnDelete" Content="Delete" FontSize="18" FontWeight="Bold" Grid.Column="3" Grid.Row="2" Margin="40,5" Click="btnDelete_Click"/>
     </Grid>
 </UserControl>
