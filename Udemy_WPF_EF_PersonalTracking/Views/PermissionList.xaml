@@ -103,7 +103,7 @@
             <Button x:Name="btnDisapprove" Content="Disapprove" Grid.Column="1" Click="btnDisapprove_Click"/>
             <Button x:Name="btnAdd" Content="Add" Grid.Column="2" Click="btnAdd_Click"/>
             <Button x:Name="btnUpdate" Content="Update" Grid.Column="3" Click="btnUpdate_Click"/>
-            <Button x:Name="btnDelete" Content="Delete" Grid.Column="4"/>
+            <Button x:Name="btnDelete" Content="Delete" Grid.Column="4" Click="btnDelete_Click"/>
         </Grid>
     </Grid>
 </UserControl>

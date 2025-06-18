@@ -178,5 +178,22 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             else
                 MessageBox.Show("Please select a permission from table.");
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (model != null && model.Id != 0)
+            {
+                if (MessageBox.Show("Are you sure to delete?", "Question", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    Permission permission = db.Permissions.Find(model.Id);
+                    db.Remove(permission);
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.Name}'s Permission was deleted.");
+                    FillPermissionGrid();
+                }
+            }
+            else
+                MessageBox.Show("Please select a permission from table.");
+        }
     }
 }
