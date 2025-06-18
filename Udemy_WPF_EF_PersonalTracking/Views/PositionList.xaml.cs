@@ -26,18 +26,21 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         public PositionList()
         {
             InitializeComponent();
+            FillGridPos();
         }
 
         PersonaltrackingContext db = new PersonaltrackingContext();
 
         private void FillGridPos()
         {
-            var list = db.Positions.Include(x => x.Department).Select(a => new
+            var list = db.Positions.Include(x => x.Department).Include(x => x.Employees).Select(a => new
             {
                 positionId = a.Id,
                 positionName = a.PositionName,
                 departmentId = a.DepartmentId,
-                departmentName = a.Department.DepartmentName
+                departmentName = a.Department.DepartmentName,
+                // 각 Position별 배치된 직원 목록도 표기하도록 추가
+                representative = string.Join(", ", a.Employees.Select(e => e.Name))
             }).OrderBy(x => x.positionName).ToList();
 
             List<PositionModel> modellist = new List<PositionModel>();
@@ -48,6 +51,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                 model.PositionName = item.positionName;
                 model.DepartmentName = item.departmentName;
                 model.DepartmentId = item.departmentId;
+                model.Representative = item.representative;
                 modellist.Add(model);
             }
             gridPosition.ItemsSource = modellist;
@@ -75,6 +79,31 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                 page.ShowDialog();
                 FillGridPos();
             }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridPosition.SelectedIndex != -1)
+            {
+                if (MessageBox.Show("Are you sure to delete?", "Question", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    PositionModel model = (PositionModel)gridPosition.SelectedItem;
+                    // employee 삭제시 해당 employee와 연관된 직무, 급여, 허가 등의 관련 기록을 먼저 일괄 삭제.
+                    // C# 코드에서 직접 삭제하는 해당 방법 이외 DBMS에서 Cascade, Trigger를 사용하는 방법도 존재.
+                    List<Employee> employeeDelete = db.Employees.Where(x => x.PositionId == model.Id).ToList();
+                    foreach (Employee employee in employeeDelete)
+                        db.Employees.Remove(employee);
+                    db.SaveChanges();
+
+                    Position position = db.Positions.Find(model.Id);
+                    db.Positions.Remove(position);
+                    db.SaveChanges();
+                    MessageBox.Show($"{model.PositionName} position was deleted.");
+                    FillGridPos();
+                }
+            }
+            else
+                MessageBox.Show("Please select a employee from table.");
         }
     }
 }

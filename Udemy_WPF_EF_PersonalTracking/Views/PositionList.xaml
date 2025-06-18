@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Udemy_WPF_EF_PersonalTracking.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" FontSize="18" FontWeight="SemiBold">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
@@ -19,13 +19,14 @@
             </Grid.ColumnDefinitions>
             <Button Margin="40, 5, 40, 5" Grid.Column="0" Name="btnAdd" Content="Add" FontSize="18" FontWeight="Bold" Click="btnAdd_Click"/>
             <Button Margin="40, 5, 40, 5" Grid.Column="1" Name="btnUpdate" Content="Update" FontSize="18" FontWeight="Bold" Click="btnUpdate_Click"/>
-            <Button Margin="40, 5, 40, 5" Grid.Column="2" Name="btnDelete" Content="Delete" FontSize="18" FontWeight="Bold"/>
+            <Button Margin="40, 5, 40, 5" Grid.Column="2" Name="btnDelete" Content="Delete" FontSize="18" FontWeight="Bold" Click="btnDelete_Click"/>
         </Grid>
         <DataGrid x:Name="gridPosition" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" SelectionUnit="FullRow">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="*" Binding="{Binding Id}" Visibility="Hidden"/>
-                <DataGridTextColumn Header="Position Name" Width="auto" Binding="{Binding PositionName}"/>
-                <DataGridTextColumn Header="Department Name" Width="auto" Binding="{Binding DepartmentName}"/>
+                <DataGridTextColumn Header="Position Name" Width="*" Binding="{Binding PositionName}"/>
+                <DataGridTextColumn Header="Department Name" Width="*" Binding="{Binding DepartmentName}"/>
+                <DataGridTextColumn Header="Employee in charge" Width="2*" Binding="{Binding Representative}"/>
                 <DataGridTextColumn Header="Department Id" Visibility="Hidden" Width="auto" Binding="{Binding DepartmentId}"/>
             </DataGrid.Columns>
         </DataGrid>

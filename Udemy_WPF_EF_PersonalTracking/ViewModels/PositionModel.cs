@@ -12,5 +12,6 @@ namespace Udemy_WPF_EF_PersonalTracking.ViewModels
         public string PositionName { get; set; }
         public string DepartmentName { get; set; }
         public int DepartmentId { get; set; }
+        public string Representative { get; set; }
     }
 }
