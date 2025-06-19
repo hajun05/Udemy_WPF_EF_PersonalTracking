@@ -34,11 +34,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image Source="/Icons/Logo.jpg" Grid.Column="0"/>
-            <Label Name="LoginName" Content="{Binding ElementName=PersonalMainWindow, Path=LoginUserName}" Grid.Column="1" Width="150" Margin="10,10,0,0" FontSize="26"/>
+            <Label Name="LoginName" Grid.Column="1" Width="150" Margin="10,10,0,0" FontSize="26"/>
             <RadioButton x:Name="IsAdmin" Content="Admin" FontSize="12" Margin="0,10,0,0" Grid.Column="2" IsHitTestVisible="False"/>
         </Grid>
 
-        <Label x:Name="IblWindowName" Content="Windows Name" Grid.Row="0" Grid.Column="1" Margin="212, 10, 0, 0" HorizontalAlignment="Center" FontSize="32" FontWeight="DemiBold"/>
+        <Label x:Name="IblWindowName" Content="Windows Name" Grid.Row="0" Grid.Column="1" Margin="212, 0, 0, 0" HorizontalAlignment="Center" FontSize="32" FontWeight="DemiBold"/>
         <ContentControl Content="{Binding}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="8" Height="Auto" Width="Auto"/>
 
         <StackPanel x:Name="stackEmployee" Grid.Row="1" Margin="0,2,0,0">

@@ -55,6 +55,14 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             cmbState.DisplayMemberPath = "StateName";
             cmbState.SelectedValuePath = "Id";
             cmbState.SelectedIndex = -1;
+
+            if (!UserStatic.IsAdmin)
+            {
+                btnDisapprove.Visibility = Visibility.Hidden;
+                btnApprove.Visibility = Visibility.Hidden;
+                btnDelete.Visibility = Visibility.Hidden;
+                btnAdd.SetValue(Grid.ColumnProperty, 1);
+            }
         }
 
         private void FillPermissionGrid()
@@ -81,6 +89,16 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                     Explanation = x.PermissionExplanation,
                     PermissionState = x.PermissionState,
                 }).OrderByDescending(x => x.StartDate).ToList();
+
+                if (!UserStatic.IsAdmin) 
+                { 
+                    permissionlist = permissionlist.Where(x => x.EmployeeId == UserStatic.EmployeeId).ToList();
+                    txtName.IsEnabled = false;
+                    txtUserNo.IsEnabled = false;
+                    txtSurname.IsEnabled = false;
+                    cmbDepartment.IsEnabled = false;
+                    cmbPosition.IsEnabled = false;
+                }
 
                 gridPermission.ItemsSource = permissionlist;
             }

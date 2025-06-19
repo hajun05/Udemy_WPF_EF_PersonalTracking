@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,6 +25,8 @@ namespace Udemy_WPF_EF_PersonalTracking
             InitializeComponent();
             LoginName.Content = UserStatic.Name;
             IsAdmin.IsChecked = UserStatic.IsAdmin ? true : false;
+            //btnEmployee.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            DataContext = new EmployeeViewModel();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -32,6 +35,10 @@ namespace Udemy_WPF_EF_PersonalTracking
             {
                 if (!UserStatic.IsAdmin)
                 {
+                    stackDepartment.Visibility = Visibility.Hidden;
+                    stackPosition.Visibility = Visibility.Hidden;
+                    stackLogOut.SetValue(Grid.RowProperty, 5);
+                    stackExit.SetValue(Grid.RowProperty, 6);
                 }
             }
         }
@@ -50,8 +57,34 @@ namespace Udemy_WPF_EF_PersonalTracking
 
         private void btnEmployee_Click(object sender, RoutedEventArgs e)
         {
-            IblWindowName.Content = "Employee List";
-            DataContext = new EmployeeViewModel();
+            if (!UserStatic.IsAdmin)
+            {
+                using (PersonaltrackingContext db = new PersonaltrackingContext())
+                {
+                    Employee employee = db.Employees.Find(UserStatic.EmployeeId);
+                    EmployeeDetailModel model = new EmployeeDetailModel();
+                    model.Address = employee.Address;
+                    model.BirthDay = ((DateOnly)employee.BirtyDay).ToDateTime(TimeOnly.MinValue);
+                    model.DepartmentId = employee.DepartmentId;
+                    model.Id = employee.Id;
+                    model.ImagePath = employee.ImagePath;
+                    model.IsAdmin = (bool)employee.IsAdmin;
+                    model.Name = employee.Name;
+                    model.Password = employee.Password;
+                    model.PositionId = employee.PositionId;
+                    model.Salary = employee.Salary;
+                    model.Surname = employee.Surname;
+                    model.UserNo = employee.UserNo;
+                    EmployeePage page = new EmployeePage();
+                    page.model = model;
+                    page.ShowDialog();
+                }
+            }
+            else 
+            {
+                IblWindowName.Content = "Employee List";
+                DataContext = new EmployeeViewModel();
+            }
         }
 
         private void btnTask_Click(object sender, RoutedEventArgs e)
@@ -74,7 +107,7 @@ namespace Udemy_WPF_EF_PersonalTracking
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)

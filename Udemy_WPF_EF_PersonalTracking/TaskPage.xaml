@@ -46,8 +46,12 @@
             <TextBox x:Name="txtTitle" Grid.Row="3" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26"/>
             <Label Content="TaskCount" Grid.Row="4" Height="34" Width="100"/>
             <TextBox x:Name="txtCount" Grid.Row="4" Margin="0" Grid.Column="1" TextWrapping="Wrap" Height="26" IsReadOnly="True"/>
-            <Label Content="Content" Grid.Row="5" Height="34" Width="100"/>
-            <TextBox x:Name="txtContent" Grid.Row="5" Grid.RowSpan="3" Margin="0, 10" Grid.Column="1" TextWrapping="Wrap"/>
+            <Label Content="Start Date" Grid.Row="5"/>
+            <DatePicker Name="dpStart" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="0,0,2,0" SelectedDateChanged="dpStart_SelectedDateChanged"/>
+            <Label Content="Delivery Date" Grid.Row="6" Width="130"/>
+            <DatePicker Name="dpDelivery" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" Margin="0,0,2,0" SelectedDateChanged="dpDelivery_SelectedDateChanged"/>
+            <Label Content="Content" Grid.Row="7" Height="34" Width="100"/>
+            <TextBox x:Name="txtContent" Grid.Row="7" Grid.RowSpan="1" Margin="0, 10" Grid.Column="1" TextWrapping="Wrap"/>
             <Button x:Name="btnSave" Content="Save" Grid.Row="8" HorizontalAlignment="Right" Margin="0, 10, 0, 15" Width="140" Click="btnSave_Click"/>
             <Button x:Name="btnClose" Content="Close" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Center" Margin="0, 10, 0, 15" Width="140" Click="btnClose_Click"/>
         </Grid>

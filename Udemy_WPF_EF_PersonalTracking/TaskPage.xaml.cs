@@ -52,6 +52,9 @@ namespace Udemy_WPF_EF_PersonalTracking
             cmbPosition.SelectedValuePath = "Id";
             cmbPosition.SelectedIndex = -1;
 
+            dpStart.SelectedDate = DateTime.Now;
+            dpDelivery.SelectedDate = DateTime.Now;
+
             if (model != null && model.Id != 0)
             {
                 txtUserNo.Text = model.UserNo.ToString();
@@ -114,7 +117,8 @@ namespace Udemy_WPF_EF_PersonalTracking
                     {
                         DB.Task task = new DB.Task();
                         task.EmployeeId = EmployeeId;
-                        task.TaskStartDate = DateOnly.FromDateTime((DateTime)DateTime.Now);
+                        task.TaskStartDate = DateOnly.FromDateTime((DateTime)dpStart.SelectedDate);
+                        task.TaskDeliveryDate = DateOnly.FromDateTime((DateTime)dpDelivery.SelectedDate);
                         task.TaskTitle = txtTitle.Text;
                         task.TaskContent = txtContent.Text;
                         task.TaskState = Definitions.TaskStates.OnEmployee;
@@ -129,6 +133,26 @@ namespace Udemy_WPF_EF_PersonalTracking
                 txtUserNo.Clear();
                 txtName.Clear();
                 txtSurname.Clear();
+                dpStart.SelectedDate = DateTime.Now;
+                dpDelivery.SelectedDate = DateTime.Now;
+            }
+        }
+
+        private void dpStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpStart.SelectedDate != null)
+            {
+                // 종료일은 시작일 이후만 선택 가능
+                dpDelivery.DisplayDateStart = dpStart.SelectedDate;
+            }
+        }
+
+        private void dpDelivery_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpDelivery.SelectedDate != null)
+            {
+                // 종료일은 시작일 이후만 선택 가능
+                dpStart.DisplayDateEnd = dpDelivery.SelectedDate;
             }
         }
     }

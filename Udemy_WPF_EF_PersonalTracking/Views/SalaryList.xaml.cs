@@ -50,6 +50,13 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
             cmbMonth.DisplayMemberPath = "MonthName";
             cmbMonth.SelectedValuePath = "Id";
             cmbMonth.SelectedIndex = -1;
+
+            if (!UserStatic.IsAdmin)
+            {
+                btnDelete.Visibility = Visibility.Hidden;
+                btnUpdate.Visibility = Visibility.Hidden;
+                btnAdd.Visibility = Visibility.Hidden;
+            }
         }
 
         PersonaltrackingContext db = new PersonaltrackingContext();
@@ -75,6 +82,17 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                 DepartmentId = x.Employee.DepartmentId,
                 PositionId = x.Employee.PositionId,
             }).OrderByDescending(x => x.Year).OrderByDescending(x => x.MonthId).ToList();
+
+            if (!UserStatic.IsAdmin)
+            {
+                salaries = salaries.Where(x => x.EmployeeId == UserStatic.EmployeeId).ToList();
+                txtName.IsEnabled = false;
+                txtUserNo.IsEnabled = false;
+                txtSurname.IsEnabled = false;
+                cmbDepartment.IsEnabled = false;
+                cmbPosition.IsEnabled = false;
+            }
+
             gridSalary.ItemsSource = salaries;
         }
 

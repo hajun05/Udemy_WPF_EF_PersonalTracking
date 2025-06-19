@@ -44,24 +44,17 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             FillTaskGrid();
-            cmbDepartment.ItemsSource = db.Departments.ToList();
-            cmbDepartment.DisplayMemberPath = "DepartmentName";
-            cmbDepartment.SelectedValuePath = "Id";
-            cmbDepartment.SelectedIndex = -1;
 
-            positions = db.Positions.ToList();
-
-            cmbPosition.ItemsSource = db.Positions.ToList();
-            cmbPosition.DisplayMemberPath = "PositionName";
-            cmbPosition.SelectedValuePath = "Id";
-            cmbPosition.SelectedIndex = -1;
-
-            List<Taskstate> taskstates = db.Taskstates.ToList();
-            cmbState.ItemsSource = taskstates;
-            cmbState.DisplayMemberPath = "NameState";
-            cmbState.SelectedValuePath = "Id";
-            cmbState.SelectedIndex = -1;
+            if (!UserStatic.IsAdmin)
+            {
+                btnAdd.Visibility = Visibility.Hidden;
+                btnUpdate.Visibility = Visibility.Hidden;
+                btnDelete.Visibility = Visibility.Hidden;
+                btnApprove.SetValue(Grid.ColumnProperty, 1);
+                btnApprove.Content = "Delivery";
+            }
         }
+
         private void FillTaskGrid()
         {
             tasklist = db.Tasks.Include(x => x.TaskStateNavigation).Include(x => x.Employee)
@@ -73,7 +66,8 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                     StateName = x.TaskStateNavigation.StateName,
                     Surname = x.Employee.Surname,
                     TaskContent = x.TaskContent,
-                    TaskDeliveryDate = ((DateOnly)x.TaskStartDate).ToDateTime(TimeOnly.MinValue),
+                    TaskStartDate = x.TaskStartDate == null ? DateTime.MinValue : ((DateOnly)x.TaskStartDate).ToDateTime(TimeOnly.MinValue),
+                    TaskDeliveryDate = x.TaskDeliveryDate == null ? DateTime.MinValue : ((DateOnly)x.TaskDeliveryDate).ToDateTime(TimeOnly.MinValue),
                     TaskState = x.TaskState,
                     TaskTitle = x.TaskTitle,
                     UserNo = x.Employee.UserNo,
@@ -81,8 +75,35 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                     PositionId = x.Employee.PositionId,
                 }).ToList();
 
+            if (!UserStatic.IsAdmin)
+            {
+                tasklist = tasklist.Where(x => x.EmployeeId == UserStatic.EmployeeId).ToList();
+                txtName.IsEnabled = false;
+                txtUserNo.IsEnabled = false;
+                txtSurname.IsEnabled = false;
+                cmbDepartment.IsEnabled = false;
+                cmbPosition.IsEnabled = false;
+            }
+
             gridTask.ItemsSource = tasklist;
             searchlist = tasklist;
+
+            cmbDepartment.ItemsSource = db.Departments.ToList();
+            cmbDepartment.DisplayMemberPath = "DepartmentName";
+            cmbDepartment.SelectedValuePath = "Id";
+            cmbDepartment.SelectedIndex = -1;
+
+            positions = db.Positions.ToList();
+            cmbPosition.ItemsSource = db.Positions.ToList();
+            cmbPosition.DisplayMemberPath = "PositionName";
+            cmbPosition.SelectedValuePath = "Id";
+            cmbPosition.SelectedIndex = -1;
+
+            List<Taskstate> taskstates = db.Taskstates.ToList();
+            cmbState.ItemsSource = taskstates;
+            cmbState.DisplayMemberPath = "NameState";
+            cmbState.SelectedValuePath = "Id";
+            cmbState.SelectedIndex = -1;
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
@@ -165,6 +186,31 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
 
                     db.SaveChanges();
                     MessageBox.Show($"{model.Name}'s {model.TaskTitle} Task was deleted.");
+                    FillTaskGrid();
+                }
+            }
+        }
+
+        private void btnApprove_Click(object sender, RoutedEventArgs e)
+        {
+            if (model != null && model.Id != 0)
+            {
+                if (UserStatic.IsAdmin && model.TaskState == Definitions.TaskStates.OnEmployee)
+                    MessageBox.Show("Before approve a task, Task must be Delivered.");
+                else if (model.TaskState == Definitions.TaskStates.Approved)
+                    MessageBox.Show("This task is already approved.");
+                else if (!UserStatic.IsAdmin && model.TaskState == Definitions.TaskStates.Delivered)
+                    MessageBox.Show("This task is already delivered.");
+                else
+                {
+                    DB.Task task = db.Tasks.Find(model.Id);
+                    if (UserStatic.IsAdmin)
+                        task.TaskState = Definitions.TaskStates.Approved;
+                    else
+                        task.TaskState = Definitions.TaskStates.Delivered;
+                    db.SaveChanges();
+                    string TaskUpdatedState = task.TaskState == Definitions.TaskStates.Approved ? "Approved" : "Delivered";
+                    MessageBox.Show($"{model.TaskTitle} Task was {TaskUpdatedState}.");
                     FillTaskGrid();
                 }
             }

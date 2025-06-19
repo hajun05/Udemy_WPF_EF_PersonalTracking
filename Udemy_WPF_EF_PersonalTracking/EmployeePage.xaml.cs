@@ -63,9 +63,18 @@ namespace Udemy_WPF_EF_PersonalTracking
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
                 // 현재 작업 디렉토리 + 상대경로(폴더 + 파일명). 상대경로는 에러로 인해 wpf에 이미지 안뜸
-                image.UriSource = new Uri(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", model.ImagePath), UriKind.Absolute);   
+                image.UriSource = new Uri(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", model.ImagePath), UriKind.Absolute);
                 image.EndInit();
                 EmployeeImage.Source = image;
+
+                if (!UserStatic.IsAdmin)
+                {
+                    chisAdmin.IsEnabled = false;
+                    txtUserNo.IsEnabled = false;
+                    txtSalary.IsEnabled = false;
+                    cmbDepartment.IsEnabled = false;
+                    cmbPosition.IsEnabled = false;
+                }
             }
         }
 
