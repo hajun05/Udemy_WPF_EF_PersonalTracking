@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,13 +22,17 @@ namespace Udemy_WPF_EF_PersonalTracking
         public MainWindow()
         {
             InitializeComponent();
+            LoginName.Content = UserStatic.Name;
+            IsAdmin.IsChecked = UserStatic.IsAdmin ? true : false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (PersonaltrackingContext context = new PersonaltrackingContext())
+            using (PersonaltrackingContext db = new PersonaltrackingContext())
             {
-
+                if (!UserStatic.IsAdmin)
+                {
+                }
             }
         }
 
@@ -69,7 +74,7 @@ namespace Udemy_WPF_EF_PersonalTracking
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)

@@ -44,13 +44,13 @@ namespace Udemy_WPF_EF_PersonalTracking
                 Employee employee = db.Employees.FirstOrDefault(x => x.UserNo == Convert.ToInt32(txtUserNo.Text) && x.Password.Equals(txtPassword.Text));
                 if (employee != null && employee.Id != 0)
                 {
-                    this.Visibility = Visibility.Collapsed;
-                    MainWindow main = new MainWindow();
                     UserStatic.EmployeeId = employee.Id;
                     UserStatic.Surname = employee.Surname;
                     UserStatic.Name = employee.Name;
                     UserStatic.UserNo = employee.UserNo;
                     UserStatic.IsAdmin = (bool)employee.IsAdmin;
+                    this.Visibility = Visibility.Collapsed;
+                    MainWindow main = new MainWindow();
                     main.ShowDialog();
                     txtPassword.Clear();
                     txtUserNo.Clear();
