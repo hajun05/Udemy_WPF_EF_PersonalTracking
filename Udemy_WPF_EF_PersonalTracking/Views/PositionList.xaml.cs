@@ -103,7 +103,7 @@ namespace Udemy_WPF_EF_PersonalTracking.Views
                 }
             }
             else
-                MessageBox.Show("Please select a employee from table.");
+                MessageBox.Show("Please select a position from table.");
         }
     }
 }
