@@ -107,7 +107,9 @@ namespace Udemy_WPF_EF_PersonalTracking
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            //Application.Current.Shutdown();
+            UserStatic.isShutdownCalled = true;
+            this.Close();
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)

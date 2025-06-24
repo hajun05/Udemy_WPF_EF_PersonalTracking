@@ -17,5 +17,7 @@ namespace Udemy_WPF_EF_PersonalTracking
         public static string Name { get; set; }
 
         public static string Surname { get; set; }
+
+        public static bool isShutdownCalled { get; set; }
     }
 }

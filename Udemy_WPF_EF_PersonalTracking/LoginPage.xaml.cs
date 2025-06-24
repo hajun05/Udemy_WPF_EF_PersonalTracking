@@ -49,12 +49,20 @@ namespace Udemy_WPF_EF_PersonalTracking
                     UserStatic.Name = employee.Name;
                     UserStatic.UserNo = employee.UserNo;
                     UserStatic.IsAdmin = (bool)employee.IsAdmin;
+                    UserStatic.isShutdownCalled = false;
                     this.Visibility = Visibility.Collapsed;
                     MainWindow main = new MainWindow();
                     main.ShowDialog();
-                    txtPassword.Clear();
-                    txtUserNo.Clear();
-                    this.Visibility = Visibility.Visible;
+                    if (UserStatic.isShutdownCalled)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        txtPassword.Clear();
+                        txtUserNo.Clear();
+                        this.Visibility = Visibility.Visible;
+                    }
                 }
                 else
                 {
